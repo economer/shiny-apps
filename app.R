@@ -2,7 +2,7 @@ library(dplyr)
 library(stringr)
 library(readr)
 
-file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
+file_list3 <- read.csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",stringsAsFactors = FALSE,encoding='UTF-8') %>%
     mutate(file_name = tolower(file_name)) %>%
     as.data.frame() %>%
     mutate(file_name = str_replace_all(string = file_name,pattern = " & ", " and "))
@@ -11,7 +11,7 @@ file_list_year <- file_list3 %>%
     distinct(Year) %>%
     as.data.frame()
 
-name_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/name_list3.csv",progress = F) %>%
+name_list3 <- read.csv("https://raw.githubusercontent.com/economer/NHANES/master/name_list3.csv",stringsAsFactors = FALSE,encoding='UTF-8') %>%
     as.data.frame()
 
 
@@ -73,7 +73,7 @@ server <- function(input, output, session) {
         library(stringr)
         library(data.table)
         
-        file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
+        file_list3 <- read.csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",stringsAsFactors = FALSE,encoding='UTF-8') %>%
             mutate(file_name = tolower(file_name)) %>%
             as.data.frame() %>%
             mutate(file_name = str_replace_all(string = file_name,pattern = " & ", " and "))
@@ -82,7 +82,7 @@ server <- function(input, output, session) {
             distinct(Year) %>%
             as.data.frame()
         
-        name_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/name_list3.csv",progress = F) %>%
+        name_list3 <- read.csv("https://raw.githubusercontent.com/economer/NHANES/master/name_list3.csv",stringsAsFactors = FALSE,encoding='UTF-8') %>%
             as.data.frame()
         
         ## function to download xpt files 
