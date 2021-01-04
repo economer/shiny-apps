@@ -12,7 +12,7 @@ library(shiny)
 shinyApp(
     
     ui = fluidPage(
-        selectInput("region", "Region TEST:", 
+        selectInput("region", "Region TEST2:", 
                     choices = colnames(WorldPhones)),
         plotOutput("phonePlot", height=270)
     ),
@@ -20,7 +20,7 @@ shinyApp(
     server = function(input, output) {
         output$phonePlot <- renderPlot({
             barplot(WorldPhones[,input$region]*1000, 
-                    ylab = "Number of Telephones TEST", xlab = "Year")
+                    ylab = "Number of Telephones TEST2", xlab = "Year")
         })
     },
     
