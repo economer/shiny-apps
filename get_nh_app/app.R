@@ -122,11 +122,12 @@ ui <- fluidPage(
               )
     )
     
-    
+   
 )
 
 server <- function(input, output, session) {
     library(dplyr)
+    library(tidyverse)
     
     avail <-  reactive(is_data_av %>%
                            mutate(dd = ifelse(!is.na(input$year) & !is.na(input$data_name) & is.na(data_av), "Th Data Is Not Available","KKK")))
