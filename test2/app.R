@@ -12,7 +12,7 @@ library(shiny)
 shinyApp(
     
     ui = fluidPage(
-        selectInput("region", "Region TEST2:", 
+        selectInput("region", "Region TEST23:", 
                     choices = colnames(WorldPhones)),
         plotOutput("phonePlot", height=270)
     ),
