@@ -27,7 +27,7 @@ ui <- fluidPage(
         column(
             9, 
             "Explore the datasets",
-            shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name,selected = "blood pressure", multiple = T,selectize = T)
+            shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name, multiple = T,selectize = T)
         ),
         
         column(4,
