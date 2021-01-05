@@ -2,6 +2,7 @@ library(shiny)
 library(dplyr)
 library(stringr)
 library(readr)
+library(shinythemes)
 
 file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
     mutate(file_name = tolower(file_name)) %>%
@@ -24,43 +25,46 @@ file_list3_exp <- file_list3 %>%
     arrange(file_name)
 
 
-
-ui <- fluidPage(
-    fluidRow(
-        column(
-            9, 
-            "Explore the datasets",
-            shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name, multiple = T,selectize = T)
-        ),
-        
-        column(4,
-               "Year",
-               shiny::selectInput(inputId = "year",label = "Select Year(s)",choices = file_list_year$Year,multiple = T,selectize = T,selected = "1999-2000")
-        ), 
-        column(
-            4,
-            "Variables Names to Labels?",
-            shiny::checkboxInput(inputId = "label",label = "Variables Names to Labels?",value = TRUE)
-        )
-        
-    ), 
-    mainPanel(width = 12,
-              fluidRow(
-                  column(
-                      12,
-                      "An overview of the dataset(s)\n\n",
-                      tableOutput(outputId = "str")
-                  ),
-                  
-                  column(12,
-                         "The first 10 observations",
-                         tableOutput(outputId = "table"),
-                         downloadButton(outputId = "down",label = "Would You Like to Download the Results?")
-                         
-                  )
-              )
-    )
-    
+ui <- fluidPage(theme = shinytheme("cyborg"),
+                titlePanel("National Health and Nutrition Examination Survey (NHANES) Downloader"),
+                fluidRow(
+                    headerPanel("Explore the datasets\n"),
+                    column(
+                        9, 
+                        
+                        shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name, multiple = T,selectize = T,selected = "blood pressure")
+                    ),
+                    
+                    column(4,
+                           "Year",
+                           shiny::selectInput(inputId = "year",label = "Select Year(s)",choices = file_list_year$Year,multiple = T,selectize = T,selected = "1999-2000")
+                    ), 
+                    column(
+                        4,
+                        "Variables Names to Labels?",
+                        shiny::checkboxInput(inputId = "label",label = "Variables Names to Labels?",value = TRUE)
+                    )
+                    
+                ), 
+                mainPanel(width = 12,
+                          fluidRow(
+                              headerPanel("An overview of the varaibles"),
+                              column(
+                                  12,
+                                  
+                                  tableOutput(outputId = "str"),
+                                  
+                                  headerPanel("The first 10 observations")
+                              ),
+                              
+                              column(12,
+                                     tableOutput(outputId = "table"),
+                                     downloadButton(outputId = "down",label = "Would You Like to Download the Results?")
+                                     
+                              )
+                          )
+                )
+                
 )
 
 server <- function(input, output, session) {
