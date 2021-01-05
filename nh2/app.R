@@ -69,12 +69,11 @@ server <- function(input, output, session) {
         library(purrr)
         library(janitor)
         library(readr)
-        library(glue)
-        library(rvest)
         library(stringr)
         library(data.table)
+        library(skimr)
         
-        file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
+        file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv") %>%
             mutate(file_name = tolower(file_name)) %>%
             as.data.frame() %>%
             mutate(file_name = str_replace_all(string = file_name,pattern = " & ", " and "))

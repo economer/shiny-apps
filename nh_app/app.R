@@ -3,6 +3,27 @@ library(dplyr)
 library(stringr)
 library(readr)
 
+file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
+    mutate(file_name = tolower(file_name)) %>%
+    as.data.frame() %>%
+    mutate(file_name = str_replace_all(string = file_name,pattern = " & ", " and "))
+
+file_list_year <- file_list3 %>%
+    distinct(Year) %>%
+    as.data.frame()
+
+name_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/name_list3.csv",progress = F) %>%
+    as.data.frame()
+
+
+file_list3_exp <- file_list3 %>%
+    mutate(file_name = stringr::str_replace_all(string = file_name,pattern = " & ", " and ")) %>%
+    group_by(name,file_name) %>%
+    count() %>%
+    select(-n) %>%
+    arrange(file_name)
+
+
 
 ui <- fluidPage(
     fluidRow(
@@ -43,7 +64,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-    
+    source(file = "download_nh.R")
     
     library(dplyr)
     library(skimr)

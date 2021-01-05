@@ -1,3 +1,7 @@
+library(dplyr)
+library(stringr)
+library(readr)
+
 file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
   mutate(file_name = tolower(file_name)) %>%
   as.data.frame() %>%
@@ -27,8 +31,6 @@ download_nh <- function(data_name=NULL,year=NULL,name_to_label=FALSE) {
   library(purrr)
   library(janitor)
   library(readr)
-  library(glue)
-  library(rvest)
   library(stringr)
   library(data.table)
   
