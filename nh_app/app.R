@@ -3,6 +3,8 @@ library(dplyr)
 library(stringr)
 library(readr)
 library(shinythemes)
+library(shinyjs)
+library(shinydashboard)
 
 file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
     mutate(file_name = tolower(file_name)) %>%
@@ -26,37 +28,37 @@ file_list3_exp <- file_list3 %>%
 
 
 ui <- fluidPage(theme = shinytheme("cyborg"),
+                shinyjs::useShinyjs(),
                 titlePanel("National Health and Nutrition Examination Survey (NHANES) Downloader"),
                 fluidRow(
-                    headerPanel("Explore the datasets\n"),
+                    
+                    h3("Explore the datasets\n"),
                     column(
                         9, 
-                        
                         shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name, multiple = T,selectize = T,selected = "blood pressure")
                     ),
-                    headerPanel("Select the Year(s)"),
-                    column(4,
-                           "Year",
-                           shiny::selectInput(inputId = "year",label = "Select Year(s)",choices = file_list_year$Year,multiple = T,selectize = T,selected = "1999-2000")
+
+                    column(9,
+                    h3("Select the Year(s)"),
+                           
+                           shiny::selectInput(inputId = "year",label = "",choices = file_list_year$Year,multiple = T,selectize = T,selected = "1999-2000")
                     ), 
                     column(
-                        4,
-                        "Variables Names to Labels?",
-                        shiny::checkboxInput(inputId = "label",label = "Variables Names to Labels?",value = TRUE)
+                        9,
+                        h5("Variables Names to Labels"),
+                        shiny::checkboxInput(inputId = "label",label = "Change Variables Names to Variables Labels",value = TRUE)
                     )
                     
                 ), 
                 mainPanel(width = 12,
                           fluidRow(
-                              headerPanel("An overview of the varaibles"),
+                              
+                              h3("An overview of the varaibles"),
                               column(
                                   12,
-                                  
                                   tableOutput(outputId = "str"),
-                                  
-                                  headerPanel("The first 10 observations")
+                                  h3("The first 10 observations")
                               ),
-                              
                               column(12,
                                      tableOutput(outputId = "table"),
                                      downloadButton(outputId = "down",label = "Would You Like to\n Download the Results?")
@@ -76,6 +78,8 @@ server <- function(input, output, session) {
     
     thedata <- reactive(as.data.frame(download_nh(data_name = input$exp,year = input$year,name_to_label = input$label)))
     
+
+
     output$str <- renderTable({
         if (!is.na(thedata())) { 
             skimr::skim(data = thedata()) 
@@ -86,8 +90,9 @@ server <- function(input, output, session) {
     
     
     output$table <- renderTable({
-        head(x = thedata() ,10)
         
+        head(x = thedata() ,10) 
+
         
     })
     
