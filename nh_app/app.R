@@ -34,7 +34,7 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
                         
                         shiny::selectInput(inputId = "exp",label = "You can find the names of the datasets available and choose the dataset(s) of your choice for downloding",choices =file_list3_exp$file_name, multiple = T,selectize = T,selected = "blood pressure")
                     ),
-                    
+                    headerPanel("Select the Year(s)"),
                     column(4,
                            "Year",
                            shiny::selectInput(inputId = "year",label = "Select Year(s)",choices = file_list_year$Year,multiple = T,selectize = T,selected = "1999-2000")
@@ -59,7 +59,7 @@ ui <- fluidPage(theme = shinytheme("cyborg"),
                               
                               column(12,
                                      tableOutput(outputId = "table"),
-                                     downloadButton(outputId = "down",label = "Would You Like to Download the Results?")
+                                     downloadButton(outputId = "down",label = "Would You Like to\n Download the Results?")
                                      
                               )
                           )
