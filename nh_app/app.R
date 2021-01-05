@@ -3,7 +3,6 @@ library(dplyr)
 library(stringr)
 library(readr)
 library(shinythemes)
-library(shinyjs)
 # sudo su - -c "R -e \"install.packages('shinydashboard', repos='http://cran.rstudio.com/')\""
 
 file_list3 <- read_csv("https://raw.githubusercontent.com/economer/NHANES/master/file_list3.csv",progress = F) %>%
